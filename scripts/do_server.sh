@@ -20,7 +20,7 @@ SPONGE_MODS_DIR=${GRADLE_SERVER_DIR}/mods
 SPONGE_PLUGIN_DIR=${GRADLE_SERVER_DIR}/plugins
 SPONGE_CONFIG=${GRADLE_SERVER_DIR}/config/sponge/global.conf
 
-JAVA_RUN="/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java"
+JAVA_RUN="/usr/lib/jvm/java-8-openjdk-amd64/bin/java"
 JAVA_CMD="${JAVA_RUN} -jar"
 
 do_forge() {
