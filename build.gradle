@@ -1,59 +1,33 @@
 plugins {
-    id 'org.spongepowered.plugin' version '0.9.0'
+    id 'com.github.johnrengelman.shadow' version '6.1.0' apply false
 }
 
-group = 'us.racem'
-version = '1.0-SNAPSHOT'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
 
-repositories {
-    mavenCentral()
-    maven {
-        name = 'enginehub-maven'
-        url = 'https://maven.enginehub.org/repo/'
+    group = 'us.racem.guilds'
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+        maven {
+            url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
-}
 
-dependencies {
-    compileOnly 'org.spongepowered:spongeapi:7.4.0'
-    annotationProcessor 'org.spongepowered:spongeapi:7.4.0'
-
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-
-    compileOnly 'com.sk89q.worldedit:worldedit-sponge:7.3.0-SNAPSHOT'
-    compileOnly 'com.sk89q.worldedit:worldedit-core:6.1.4-SNAPSHOT'
-
-    implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'wang.harlon.quickjs:wrapper-java:0.6.0'
-    implementation 'org.apache.commons:commons-collections4:4.4'
-}
-
-sponge.plugin.id = 'guilds'
-
-def targetJavaVersion = 8
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    def javaVersion = JavaVersion.toVersion(11)
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+
+    tasks.withType(Test).configureEach {
+        enabled = false
     }
-}
 
-tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        options.release = targetJavaVersion
+    dependencies {
+        compileOnly 'org.spongepowered:spongeapi:8.0.0'
+        annotationProcessor 'org.spongepowered:spongeapi:8.0.0'
+
+        compileOnly 'org.projectlombok:lombok:1.18.24'
+        annotationProcessor 'org.projectlombok:lombok:1.18.24'
     }
-}
-
-tasks.withType(Test) {enabled = false}
-
-task make_server(type: Exec) {
-    workingDir "${buildDir}"
-    commandLine 'bash', "${projectDir}/scripts/do_server.sh", "${jar.archivePath}"
-}
-
-task run_server(type: Exec) {
-    workingDir "${buildDir}"
-    commandLine 'bash', "${projectDir}/scripts/do_run.sh", "${buildDir}"
 }

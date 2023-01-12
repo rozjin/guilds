@@ -1,0 +1,40 @@
+import org.spongepowered.gradle.plugin.config.PluginLoaders
+import org.spongepowered.plugin.metadata.model.PluginDependency
+
+plugins {
+    id 'org.spongepowered.gradle.plugin' version '2.1.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":common")
+
+    implementation 'wang.harlon.quickjs:wrapper-java:0.12.0'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.0'
+    implementation 'org.hibernate:hibernate-core-jakarta:5.6.14.Final'
+}
+
+sponge {
+    apiVersion("8.1.0")
+    license("MIT")
+    loader {
+        name(PluginLoaders.JAVA_PLAIN)
+        version("1.0")
+    }
+
+    plugin("guilds") {
+        displayName("Guilds")
+        entrypoint("us.racem.guilds.sponge.Guilds")
+        description("The Guilds Plugin")
+        contributor("Racemus") {
+            description("Developer")
+        }
+        dependency("spongeapi") {
+            loadOrder(PluginDependency.LoadOrder.AFTER)
+            optional(false)
+        }
+    }
+}

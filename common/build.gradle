@@ -1,0 +1,8 @@
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.reflections:reflections:0.10.2'
+    implementation 'org.perfectable:introspectable:5.0.0'
+}
